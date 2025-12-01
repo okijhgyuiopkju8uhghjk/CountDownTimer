@@ -1,0 +1,16 @@
+{
+    "name": "Countdown Timer",
+    "short_name": "Timer",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#121212",
+    "theme_color": "#121212",
+    "description": "A simple countdown timer PWA.",
+    "icons": [
+        {
+            "src": "icon.svg",
+            "sizes": "any",
+            "type": "image/svg+xml"
+        }
+    ]
+}
