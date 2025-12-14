@@ -9,6 +9,30 @@ const resetBtn = document.getElementById('reset-btn');
 let countdown;
 let totalSeconds = 0;
 let initialTotalSeconds = 0;
+let wakeLock = null;
+
+// Function to request a wake lock
+const requestWakeLock = async () => {
+    if ('wakeLock' in navigator) {
+        try {
+            wakeLock = await navigator.wakeLock.request('screen');
+            console.log('Screen Wake Lock is active.');
+            wakeLock.addEventListener('release', () => {
+                console.log('Screen Wake Lock was released.');
+            });
+        } catch (err) {
+            console.error(`${err.name}, ${err.message}`);
+        }
+    }
+};
+
+// Function to release the wake lock
+const releaseWakeLock = () => {
+    if (wakeLock !== null) {
+        wakeLock.release();
+        wakeLock = null;
+    }
+};
 
 function resizeCanvas() {
     const container = document.querySelector('.timer-container');
@@ -59,6 +83,7 @@ function startTimer() {
     }
 
     if (totalSeconds > 0) {
+        requestWakeLock();
         clearInterval(countdown);
         countdown = setInterval(() => {
             totalSeconds--;
@@ -66,6 +91,7 @@ function startTimer() {
             drawCircle(percentage);
             if (totalSeconds <= 0) {
                 clearInterval(countdown);
+                releaseWakeLock();
             }
         }, 1000);
     }
@@ -73,6 +99,7 @@ function startTimer() {
 
 function stopTimer() {
     clearInterval(countdown);
+    releaseWakeLock();
 }
 
 function resetTimer() {
@@ -80,7 +107,15 @@ function resetTimer() {
     totalSeconds = (parseInt(minutesInput.value) * 60 || 0) + (parseInt(secondsInput.value) || 0);
     initialTotalSeconds = totalSeconds;
     drawCircle(1);
+    releaseWakeLock();
 }
+
+// Listen for visibility changes
+document.addEventListener('visibilitychange', () => {
+    if (wakeLock !== null && document.visibilityState === 'visible') {
+        requestWakeLock();
+    }
+});
 
 startBtn.addEventListener('click', startTimer);
 stopBtn.addEventListener('click', stopTimer);
