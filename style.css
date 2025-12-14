@@ -6,44 +6,81 @@ body {
     align-items: center;
     height: 100vh;
     font-family: sans-serif;
+    margin: 0; /* Add margin 0 to prevent overflow */
 }
 
 .timer-container {
     text-align: center;
+    width: 90%; /* Make the container flexible */
+    max-width: 400px; /* Add a max-width */
 }
 
 #timer-canvas {
     display: block;
     margin: 0 auto;
+    width: 100%; /* Make canvas responsive */
+    height: auto; /* Adjust height automatically */
 }
 
 .input-container {
     margin: 20px 0;
+    display: flex; /* Use flexbox for inputs */
+    justify-content: center;
 }
 
 .input-container input {
-    width: 100px;
-    padding: 15px 30px;
+    width: 40%; /* Make inputs flexible */
+    max-width: 100px; /* Add a max-width */
+    padding: 10px; /* Adjust padding */
     margin: 0 5px;
     border: 1px solid #333;
     background-color: #1e1e1e;
     color: #ffffff;
     border-radius: 5px;
+    font-size: 16px; /* Increase font size for readability */
 }
 
 .button-container {
-    margin-top: 40px;
+    margin-top: 20px; /* Reduce margin-top */
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Add gap between buttons */
 }
 
 .button-container button {
-    margin: 0 15px;
+    padding: 10px 20px; /* Adjust padding */
+    margin: 0; /* Remove margin */
     border: none;
     border-radius: 5px;
     cursor: pointer;
     background-color: #333;
     color: #ffffff;
+    font-size: 16px; /* Increase font size */
 }
 
 .button-container button:hover {
     background-color: #444;
+}
+
+/* Media Query for smaller screens */
+@media (max-width: 480px) {
+    .input-container {
+        flex-direction: column; /* Stack inputs vertically */
+        align-items: center;
+        gap: 10px; /* Add gap between inputs */
+    }
+
+    .input-container input {
+        width: 80%;
+    }
+
+    .button-container {
+        flex-direction: column; /* Stack buttons vertically */
+        align-items: center;
+        gap: 10px;
+    }
+
+    .button-container button {
+        width: 80%;
+    }
 }

@@ -10,9 +10,21 @@ let countdown;
 let totalSeconds = 0;
 let initialTotalSeconds = 0;
 
+function resizeCanvas() {
+    const container = document.querySelector('.timer-container');
+    const size = container.offsetWidth;
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = size * dpr;
+    canvas.height = size * dpr;
+    canvas.style.width = `${size}px`;
+    canvas.style.height = `${size}px`;
+    ctx.scale(dpr, dpr);
+    drawCircle(1); // Redraw the circle after resizing
+}
+
 function drawCircle(percentage) {
-    const radius = canvas.width / 2 - 10;
-    const center = canvas.width / 2;
+    const radius = canvas.width / (2 * (window.devicePixelRatio || 1)) - 10;
+    const center = canvas.width / (2 * (window.devicePixelRatio || 1));
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -74,5 +86,7 @@ startBtn.addEventListener('click', startTimer);
 stopBtn.addEventListener('click', stopTimer);
 resetBtn.addEventListener('click', resetTimer);
 
-// Initial draw
-drawCircle(1);
+window.addEventListener('resize', resizeCanvas);
+
+// Initial setup
+resizeCanvas();
